@@ -1,0 +1,8 @@
+def print_table_ddl_for_csv(filename, table_name):
+  df = spark.read.csv(filename, inferSchema=True, header=True)
+  # ._jdf is _not-so-documented_ API, that allows Python to call JVM objects
+  fields_ddl = df._jdf.schema().toDDL().replace(',', ",\n\t")
+  print(f"CREATE TABLE `{table_name}` (\n\t{fields_ddl}\n) USING parquet")
+  
+# example
+# print_table_ddl_for_csv("/databricks-datasets/airlines/part-00000", 'airlines_sample_table_name')
