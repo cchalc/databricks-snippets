@@ -84,3 +84,13 @@ display(df)
 df.createTempView("policy_check")
 
 # COMMAND ----------
+
+display(
+  spark.sql("""
+  select
+  json_data:['custom_tags.team']:value
+  from policy_check
+  """)
+)
+
+# COMMAND ----------
